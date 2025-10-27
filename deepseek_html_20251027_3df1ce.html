@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAMDHAN OFFICIAL</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0a0a0a;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(40, 0, 60, 0.3) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(60, 0, 80, 0.3) 0%, transparent 20%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M30,50 C30,30 70,30 70,50 C70,70 30,70 30,50 Z" fill="none" stroke="%23440077" stroke-width="1" opacity="0.1"/></svg>');
+            background-size: 200px 200px;
+            opacity: 0.1;
+            z-index: -1;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #fff;
+            text-shadow: 0 0 10px #8a2be2, 0 0 20px #8a2be2;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+        }
+
+        .title span {
+            color: #9370db;
+        }
+
+        .skull-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 30px;
+            filter: drop-shadow(0 0 15px #8a2be2);
+        }
+
+        .skull {
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 40% 40%, #2a0a3a 10%, transparent 11%),
+                radial-gradient(circle at 60% 40%, #2a0a3a 10%, transparent 11%),
+                radial-gradient(ellipse at 50% 60%, #2a0a3a 25%, transparent 26%),
+                radial-gradient(ellipse at 50% 45%, #2a0a3a 30%, transparent 31%);
+            border-radius: 50%;
+            position: relative;
+            animation: glow 3s infinite alternate;
+        }
+
+        .skull::before {
+            content: "";
+            position: absolute;
+            top: 30%;
+            left: 35%;
+            width: 30%;
+            height: 15%;
+            background: 
+                radial-gradient(ellipse at 50% 0%, #2a0a3a 40%, transparent 41%),
+                radial-gradient(ellipse at 50% 100%, #2a0a3a 40%, transparent 41%);
+            border-radius: 50%;
+        }
+
+        .skull::after {
+            content: "";
+            position: absolute;
+            bottom: 25%;
+            left: 40%;
+            width: 20%;
+            height: 10%;
+            background: 
+                radial-gradient(ellipse at 50% 0%, #2a0a3a 40%, transparent 41%),
+                radial-gradient(ellipse at 50% 100%, #2a0a3a 40%, transparent 41%);
+            border-radius: 50%;
+        }
+
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .input-box {
+            border: 2px solid #6a0dad;
+            border-radius: 8px;
+            padding: 12px 15px;
+            background: transparent;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .input-box:focus {
+            box-shadow: 0 0 10px #8a2be2;
+        }
+
+        .input-box::placeholder {
+            color: #aaa;
+        }
+
+        select.input-box {
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg fill="%23ffffff" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 16px;
+        }
+
+        .button {
+            background: transparent;
+            border: 2px solid #6a0dad;
+            border-radius: 8px;
+            padding: 12px 15px;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .button:hover {
+            background: rgba(106, 13, 173, 0.2);
+            box-shadow: 0 0 15px #8a2be2;
+        }
+
+        .notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(20, 0, 30, 0.9);
+            border: 2px solid #8a2be2;
+            border-radius: 8px;
+            padding: 20px;
+            color: #fff;
+            text-align: center;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 0 20px #8a2be2;
+            backdrop-filter: blur(5px);
+            min-width: 250px;
+        }
+
+        .notification.show {
+            display: block;
+            animation: fadeIn 0.5s, float 3s ease-in-out infinite;
+        }
+
+        .notification.error {
+            border-color: #ff4d4d;
+            box-shadow: 0 0 20px #ff4d4d;
+        }
+
+        .notification h3 {
+            margin-bottom: 10px;
+            color: #9370db;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        @keyframes glow {
+            0% {
+                box-shadow: 0 0 10px #6a0dad;
+            }
+            100% {
+                box-shadow: 0 0 20px #8a2be2, 0 0 30px #9370db;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -60%);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(-50%, -50%);
+            }
+            50% {
+                transform: translate(-50%, -55%);
+            }
+            100% {
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        .crack {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        .crack::before, .crack::after {
+            content: "";
+            position: absolute;
+            background: linear-gradient(transparent, #8a2be2, transparent);
+            width: 2px;
+            height: 100%;
+            top: 0;
+            opacity: 0.3;
+        }
+
+        .crack::before {
+            left: 20%;
+            transform: rotate(15deg);
+        }
+
+        .crack::after {
+            right: 20%;
+            transform: rotate(-15deg);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">RAMDHAN OFFICIAL <span>👑</span></h1>
+        
+        <div class="skull-container">
+            <div class="skull"></div>
+            <div class="crack"></div>
+        </div>
+        
+        <div class="form-container">
+            <input type="text" class="input-box" id="phoneNumber" placeholder="Input Nomor WhatsApp">
+            
+            <select class="input-box" id="featureSelect">
+                <option value="" disabled selected>Pilih Fitur</option>
+                <option value="BADAK V1">BADAK V1</option>
+                <option value="BADAK V2">BADAK V2</option>
+                <option value="BADAK V3">BADAK V3</option>
+            </select>
+            
+            <button class="button" id="badakButton">BADAK NOMOR</button>
+        </div>
+    </div>
+    
+    <div class="notification" id="notification">
+        <button class="close-btn" id="closeNotification">&times;</button>
+        <h3 id="notificationTitle">SUCCES BADAK NOMOR ✅</h3>
+        <p id="notificationMessage">Nomor berhasil di-badak!</p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const badakButton = document.getElementById('badakButton');
+            const phoneInput = document.getElementById('phoneNumber');
+            const featureSelect = document.getElementById('featureSelect');
+            const notification = document.getElementById('notification');
+            const closeNotification = document.getElementById('closeNotification');
+            const notificationTitle = document.getElementById('notificationTitle');
+            const notificationMessage = document.getElementById('notificationMessage');
+            
+            // Daftar nomor yang sudah di-badak (simulasi)
+            const badakedNumbers = ['08123456789', '0876543210'];
+            
+            badakButton.addEventListener('click', function() {
+                const phoneNumber = phoneInput.value.trim();
+                const selectedFeature = featureSelect.value;
+                
+                // Validasi input
+                if (!phoneNumber) {
+                    showNotification('Error', 'Masukkan nomor WhatsApp terlebih dahulu!', true);
+                    return;
+                }
+                
+                if (!selectedFeature) {
+                    showNotification('Error', 'Pilih fitur BADAK terlebih dahulu!', true);
+                    return;
+                }
+                
+                // Cek apakah nomor sudah di-badak
+                if (badakedNumbers.includes(phoneNumber)) {
+                    showNotification('Peringatan', 'NOMOR INI SUDAH DI BADAK', true);
+                } else {
+                    // Simulasi proses badak
+                    showNotification('SUCCES BADAK NOMOR ✅', `Nomor ${phoneNumber} berhasil di-badak dengan ${selectedFeature}!`);
+                    
+                    // Tambahkan nomor ke daftar yang sudah di-badak
+                    badakedNumbers.push(phoneNumber);
+                }
+            });
+            
+            closeNotification.addEventListener('click', function() {
+                notification.classList.remove('show');
+            });
+            
+            function showNotification(title, message, isError = false) {
+                notificationTitle.textContent = title;
+                notificationMessage.textContent = message;
+                
+                if (isError) {
+                    notification.classList.add('error');
+                } else {
+                    notification.classList.remove('error');
+                }
+                
+                notification.classList.add('show');
+                
+                // Auto close setelah 5 detik untuk notif sukses
+                if (!isError) {
+                    setTimeout(() => {
+                        notification.classList.remove('show');
+                    }, 5000);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
